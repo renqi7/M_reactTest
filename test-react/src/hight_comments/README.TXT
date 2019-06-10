@@ -1,0 +1,1 @@
+//comments副本——增加高阶函数  将公共部分（localstorage）抽离

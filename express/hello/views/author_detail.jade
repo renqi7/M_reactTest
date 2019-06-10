@@ -1,0 +1,13 @@
+extends layout
+
+block content
+
+  h1 作者: #{author_detail.name}
+  
+  div(style='margin-left:20px;margin-top:20px')
+
+    each val in bookList
+        a(href=val.url) #{val.title} 
+        p #{val.summary}
+
+    

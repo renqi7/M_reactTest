@@ -1,0 +1,127 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lazyload</title>
+    <style>
+        .image-item {
+            display: block;
+            margin-bottom: 50px;
+            height: 200px; //一定记得设置图片高度
+        }
+    </style>
+</head>
+
+<body>
+    <img src="" class="image-item" lazyload="true" data-original="images/1.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/2.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/3.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/4.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/5.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/6.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/7.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/8.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/9.png" />
+    <img src="" class="image-item" lazyload="true" data-original="images/10.png" />
+
+    <input type="text" id="input">
+    <script>
+        // 节流
+        // document.onscroll = throttle(function (){console.log("yy")}, 200);
+        // function  throttle(fn, delay){
+        //         var lasttime = 0;
+        //         return function(){
+        //             var nowTime = new Date()
+        //         if (nowTime - lasttime > delay) {
+        //             fn.call(this)
+        //             lasttime = nowTime
+        //         }
+        //         }
+
+        //     }
+        // 防抖
+        document.onscroll = debounce(function () {
+            // console.log("s")
+        }, 500)
+
+        function debounce(fn, delay) {
+            var time = null
+            return function () {
+                clearTimeout(time)
+                time = setTimeout(function () {
+                    fn.call(this)
+                }, delay)
+            }
+        }
+
+        // 数据的全排列
+        function permute(input) {
+            var permArr = [],
+                usedChars = [];
+
+            function main(input) {
+                var i, ch;
+                for (i = 0; i < input.length; i++) {
+                    ch = input.splice(i, 1)[0];
+                    usedChars.push(ch);
+                    if (input.length == 0) {
+                        permArr.push(usedChars.slice());
+                    }
+                    main(input);
+                    input.splice(i, 0, ch);
+                    usedChars.pop();
+                }
+                return permArr
+            }
+            return main(input);
+        };
+        console.log(permute([5, 3, 7, 1]));
+
+        // 判断回文字符串
+        // console.log(run('gloolgb'))
+
+        function run(val) {
+            if (typeof val != 'string') return false
+            return val.split('').reverse().join('') === val
+        }
+
+        var data = {}
+        const input = document.getElementById('input')
+        Object.defineProperty(data, 'text', {
+            set(value) {
+                this.value = value
+                input.value = value
+            }
+        })
+        input.onchange = function (e) {
+            data.text = e.target.value
+            // console.log(data)
+        }
+
+        var viewHeight = document.documentElement.clientHeight //获取可视区高度
+        function lazyload() {
+            var eles = document.querySelectorAll('img[data-original][lazyload]')
+            Array.prototype.forEach.call(eles, function (item, index) {
+                var rect
+                if (item.dataset.original === "")
+                    return
+                rect = item.getBoundingClientRect() // 用于获得页面中某个元素的左，上，右和下分别相对浏览器视窗的位置
+                if (rect.bottom >= 0 && rect.top < viewHeight) {
+                    ! function () {
+                        var img = new Image()
+                        img.src = item.dataset.original
+                        img.onload = function () {
+                            item.src = img.src
+                        }
+                        item.removeAttribute("data-original") //移除属性，下次不再遍历
+                        item.removeAttribute("lazyload")
+                    }()
+                }
+            })
+        }
+        lazyload() //刚开始还没滚动屏幕时，要先触发一次函数，初始化首页的页面图片
+        document.addEventListener("scroll", lazyload)
+    </script>
+</body>
+
+</html>

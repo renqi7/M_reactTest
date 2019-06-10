@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+    <script src="https://cmp-static.oss-cn-beijing.aliyuncs.com/vue/2.5.16/vue.js"></script>
+    <script src="https://cmp-static.oss-cn-beijing.aliyuncs.com/vuex/3.0.1/vuex.min.js"></script>
+    <script src="https://cmp-static.oss-cn-beijing.aliyuncs.com/vue-router/3.0.1/vue-router.min.js"></script>
+    <script src="https://cmp-static.oss-cn-beijing.aliyuncs.com/axios/0.18.0/axios.min.js"></script>
+
+</head>
+
+<body>
+    <form action="" method="POST">
+        <label for="name">名字：</label>
+        <input type="text" id="name" name="name_field">
+        <input type="submit" value="ok">
+    </form>
+    <ul>
+        <li v-for="error in errors">{{error.msg}}</li>
+    </ul>
+</body>
+
+</html>
