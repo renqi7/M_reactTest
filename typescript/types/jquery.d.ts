@@ -1,0 +1,1 @@
+declare let jquery: (selector: String) => any;
